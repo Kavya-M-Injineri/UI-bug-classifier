@@ -26,13 +26,6 @@ desktop.ini
 # Uploads (user-generated, not tracked)
 uploads/
 
-# Trained model files (too large for git)
-model/*.keras
-model/*.h5
-
-# Training history (generated during training)
-model/training_history.json
-
 # User store (contains hashed credentials)
 users.json
 
