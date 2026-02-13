@@ -1,0 +1,1 @@
+Web Site Blocked This site has been blocked by the network administrator. Block reason: Gateway GEO-IP Filter Alert IP address: 88.226.120.107 Connection initiated from country: Turkey [if IE 7]><script type="text/JavaScript">isIE7=true;</script><![endif] 

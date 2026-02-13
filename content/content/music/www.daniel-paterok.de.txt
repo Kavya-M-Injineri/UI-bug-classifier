@@ -1,0 +1,1 @@
+ br class="clearer"/ img src="/images/stories/slider/005.jpg" alt="" / 

@@ -1,0 +1,1 @@
+Allan Fontanilla - Luthier         will be activated when there is news <tr> <td>&nbsp;</td> <td><a href="news.htm" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('news','','images/news_on.gif',1)"><img src="images/news_off.gif" alt="News" name="news" width="80" height="19" border="0"></a></td> </tr>       

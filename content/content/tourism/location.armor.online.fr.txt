@@ -1,0 +1,1 @@
+index <body BGCOLOR="#FFFFFF"> <p>Cette page sera affichée dans les navigateurs non-cadres. Sélectionnez ce mode afin de personnaliser la page pour les navigateurs incompatibles. Créez la page en mode Editeur de cadre pour ces navigateurs.</p> </body> 

@@ -1,0 +1,1 @@
+ Fatal error : Uncaught Error: Call to undefined function mysql_connect() in /homepages/8/d707770611/htdocs/7400_config/config.inc.php:9 Stack trace: #0 /homepages/8/d707770611/htdocs/main.php(23): include() #1 /homepages/8/d707770611/htdocs/index.php(1): include('/homepages/8/d7...') #2 {main} thrown in /homepages/8/d707770611/htdocs/7400_config/config.inc.php on line 9 

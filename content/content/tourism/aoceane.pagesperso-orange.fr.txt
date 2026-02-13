@@ -1,0 +1,1 @@
+Page d'accueil mstheme mstheme    Les Gîtes      mstheme       Référencés "Guide du Routard"  , "Petit Futé"   et  "Lonely Planet"        webbot bot="Navigation" S-Type="children" S-Orientation="horizontal" S-Rendering="graphics" B-Include-Home B-Include-Up U-Page S-Target startspan webbot bot="Navigation" i-checksum="63473" endspan mstheme 

@@ -1,0 +1,11 @@
+ERREUR 404 - Document non trouvé
+
+
+L'erreur 404 est un code d'erreur dans le protocole HTTP. Ce code est renvoyé par un serveur HTTP pour indiquer que la ressource demandée (généralement une page web) n'existe pas. 
+Certains navigateurs web affichent alors le message « 404 File Not Found » (de l'anglais signifiant « fichier non trouvé ») à destination de l'internaute. 
+
+Le premier 4 indique une erreur dans la requête, ici une mauvaise URL, venant d'une page obsolàte ou d'une erreur de saisie d'adresse web de la part du visiteur. Le dernier 4 indique le problème causé par cette erreur : la ressource est introuvable. 
+(http://fr.wikipedia.org/wiki/Erreur_HTTP_404) 
+(English version: http://en.wikipedia.org/wiki/HTTP_404) 
+
+Page précédente

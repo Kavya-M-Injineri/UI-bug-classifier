@@ -1,0 +1,1 @@
+All About Songwriting | Your #1 Songwriting Resource All About Songwriting Coming Soon / #seed-csp4-content [if lt IE 9]> <script> jQuery(document).ready(function($){$.supersized({slides:[ {image : ''} ]});}); </script> <![endif] 

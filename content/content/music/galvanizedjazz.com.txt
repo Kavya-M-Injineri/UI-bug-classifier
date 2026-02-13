@@ -1,0 +1,1 @@
+The Galvanized Jazz Band <body background="http://www.galvanizedjazz.com/test1/images/metalRight.jpg" bgcolor="#000000" text="#FFFFFF" link="#50AAF0" vlink="#C0C0C0" topmargin="20" leftmargin="0"> <p>This page uses frames, but your browser doesn't support them.</p> </body> 

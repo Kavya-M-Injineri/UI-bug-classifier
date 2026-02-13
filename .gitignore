@@ -1,0 +1,46 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environment
+venv/
+env/
+.venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Uploads (user-generated, not tracked)
+uploads/
+
+# Trained model files (too large for git)
+model/*.keras
+model/*.h5
+
+# Training history (generated during training)
+model/training_history.json
+
+# User store (contains hashed credentials)
+users.json
+
+# Dataset images (too large for git)
+dataset/
+
+# Environment variables
+.env
+
+# Logs
+*.log

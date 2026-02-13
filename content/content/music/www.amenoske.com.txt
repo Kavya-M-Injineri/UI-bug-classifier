@@ -1,0 +1,1 @@
+We're sorry, but something went wrong (500) This file lives in public/500.html Ups, hubo una falla. 

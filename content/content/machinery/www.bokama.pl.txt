@@ -1,0 +1,1 @@
+Twoj panel administratora zostal zablokowany przez webd.pl z powodu ataku brute force. Aby uzyskac mozliwosc zalogowania do zaplecza wpisz slowo webd jako login i haslo. 

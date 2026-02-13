@@ -1,0 +1,1 @@
+ Fatal error : Cannot use 'Object' as class name as it is reserved in /srv/data/web/vhosts/www.daonet.eu/htdocs/core/Object.php on line 17 

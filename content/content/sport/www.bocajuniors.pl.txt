@@ -1,0 +1,1 @@
+Twoj panel administratora zostal zablokowany z powodu ataku brute force. Aby z niego korzystac nalezy wpisac login:webd oraz haslo:webd 

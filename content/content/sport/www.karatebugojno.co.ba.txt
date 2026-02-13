@@ -1,0 +1,1 @@
+Greška u bazi podataka Greška pri uspostavljanju veze s bazom podataka 

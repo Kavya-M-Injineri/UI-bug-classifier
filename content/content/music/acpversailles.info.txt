@@ -1,0 +1,1 @@
+ <body> <h1></h1> <p>Your web-browser does not support frames. You will need to <A HREF="http://capriccio-versailles.pe.hu">click here</A> to be redirected to this site. (You will be automatically redirected in 10 seconds.)</p> <BR>Click for <A HREF="http://capriccio-versailles.pe.hu">http://capriccio-versailles.pe.hu</A> </body> 

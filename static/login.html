@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UI Bug AI — Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* ── Reset ─────────────────────────────────────────── */
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --lavender: #c4b5fd;
+            --lavender-light: #ede9fe;
+            --lavender-dark: #8b5cf6;
+            --mint: #86efac;
+            --mint-dark: #22c55e;
+            --peach: #fed7aa;
+            --peach-dark: #f97316;
+            --baby-blue: #93c5fd;
+            --baby-blue-dark: #3b82f6;
+            --pink: #fda4af;
+            --pink-dark: #f43f5e;
+            --glass-bg: rgba(255, 255, 255, 0.65);
+            --glass-border: rgba(255, 255, 255, 0.5);
+            --text-primary: #1e1b4b;
+            --text-secondary: #6b7280;
+            --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #f3f0ff 0%, #eef9f0 30%, #fff5ee 60%, #dbeafe 100%);
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* ═══════════ CS PATTERN BACKGROUND ═══════════ */
+        .cs-patterns {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        /* Floating Binary Rain */
+        .binary-column {
+            position: absolute;
+            top: -100%;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            color: rgba(139, 92, 246, 0.08);
+            white-space: nowrap;
+            animation: binaryFall linear infinite;
+            letter-spacing: 2px;
+            line-height: 1.8;
+        }
+
+        @keyframes binaryFall {
+            0% {
+                transform: translateY(-100%);
+            }
+
+            100% {
+                transform: translateY(200vh);
+            }
+        }
+
+        /* Floating Code Symbols */
+        .code-symbol {
+            position: absolute;
+            font-family: 'Courier New', monospace;
+            font-weight: 700;
+            opacity: 0;
+            animation: symbolFloat 12s var(--ease-out) infinite;
+        }
+
+        @keyframes symbolFloat {
+            0% {
+                opacity: 0;
+                transform: translateY(100vh) rotate(0deg) scale(0.5);
+            }
+
+            20% {
+                opacity: 0.12;
+            }
+
+            80% {
+                opacity: 0.08;
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateY(-20vh) rotate(360deg) scale(1.2);
+            }
+        }
+
+        /* Circuit Lines */
+        .circuit-line {
+            position: absolute;
+            background: rgba(139, 92, 246, 0.06);
+            border-radius: 2px;
+        }
+
+        .circuit-line--h {
+            height: 2px;
+            animation: circuitH 8s ease-in-out infinite;
+        }
+
+        .circuit-line--v {
+            width: 2px;
+            animation: circuitV 8s ease-in-out infinite;
+        }
+
+        @keyframes circuitH {
+
+            0%,
+            100% {
+                width: 0;
+                opacity: 0;
+            }
+
+            20% {
+                opacity: 0.4;
+            }
+
+            50% {
+                width: 120px;
+                opacity: 0.2;
+            }
+
+            80% {
+                opacity: 0.4;
+            }
+        }
+
+        @keyframes circuitV {
+
+            0%,
+            100% {
+                height: 0;
+                opacity: 0;
+            }
+
+            20% {
+                opacity: 0.4;
+            }
+
+            50% {
+                height: 80px;
+                opacity: 0.2;
+            }
+
+            80% {
+                opacity: 0.4;
+            }
+        }
+
+        .circuit-node {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(139, 92, 246, 0.12);
+            animation: nodePulse 3s ease-in-out infinite;
+        }
+
+        @keyframes nodePulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 0.2;
+                box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.1);
+            }
+
+            50% {
+                transform: scale(1.5);
+                opacity: 0.5;
+                box-shadow: 0 0 12px 4px rgba(139, 92, 246, 0.08);
+            }
+        }
+
+        /* Floating Geometric Shapes */
+        .geo-shape {
+            position: absolute;
+            border: 2px solid;
+            opacity: 0.06;
+            animation: geoFloat 20s linear infinite;
+        }
+
+        @keyframes geoFloat {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+            }
+        }
+
+        /* ═══════════ LOGIN CARD ═══════════ */
+        .login-container {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 440px;
+            padding: 20px;
+        }
+
+        .login-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 48px 40px;
+            box-shadow:
+                0 8px 32px rgba(139, 92, 246, 0.12),
+                0 2px 8px rgba(0, 0, 0, 0.04),
+                inset 0 1px 0 rgba(255, 255, 255, 0.5);
+            animation: cardEntry 0.8s var(--ease-out);
+        }
+
+        @keyframes cardEntry {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.96);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* ── Logo ──────────────────────────────────────── */
+        .login-logo {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .login-logo-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, var(--lavender) 0%, #a78bfa 50%, var(--baby-blue) 100%);
+            border-radius: 18px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 20px rgba(139, 92, 246, 0.3);
+            animation: logoSpin 0.6s var(--ease-out);
+        }
+
+        @keyframes logoSpin {
+            from {
+                transform: rotateY(90deg);
+                opacity: 0;
+            }
+
+            to {
+                transform: rotateY(0);
+                opacity: 1;
+            }
+        }
+
+        .login-logo-icon svg {
+            width: 32px;
+            height: 32px;
+            stroke: white;
+            fill: none;
+        }
+
+        .login-title {
+            font-size: 24px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--lavender-dark), var(--baby-blue-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+        }
+
+        .login-subtitle {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        /* ── Tabs ──────────────────────────────────────── */
+        .auth-tabs {
+            display: flex;
+            background: rgba(139, 92, 246, 0.06);
+            border-radius: 12px;
+            padding: 4px;
+            margin-bottom: 28px;
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            background: transparent;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s var(--ease-out);
+            font-family: inherit;
+        }
+
+        .auth-tab.active {
+            background: white;
+            color: var(--lavender-dark);
+            box-shadow: 0 2px 8px rgba(139, 92, 246, 0.15);
+        }
+
+        .auth-tab:hover:not(.active) {
+            color: var(--lavender-dark);
+        }
+
+        /* ── Form ──────────────────────────────────────── */
+        .auth-form {
+            display: none;
+        }
+
+        .auth-form.active {
+            display: block;
+            animation: formFade 0.3s var(--ease-out);
+        }
+
+        @keyframes formFade {
+            from {
+                opacity: 0;
+                transform: translateX(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--lavender);
+            pointer-events: none;
+            transition: color 0.2s;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 13px 14px 13px 44px;
+            border: 2px solid rgba(139, 92, 246, 0.12);
+            border-radius: 12px;
+            font-size: 14px;
+            font-family: inherit;
+            font-weight: 500;
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.7);
+            outline: none;
+            transition: all 0.3s var(--ease-out);
+        }
+
+        .form-input::placeholder {
+            color: #b4b4c4;
+        }
+
+        .form-input:focus {
+            border-color: var(--lavender-dark);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.1);
+        }
+
+        .form-input:focus~.input-icon,
+        .form-input:focus+.input-icon {
+            color: var(--lavender-dark);
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 4px;
+            transition: color 0.2s;
+        }
+
+        .password-toggle:hover {
+            color: var(--lavender-dark);
+        }
+
+        /* ── Submit Button ─────────────────────────────── */
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 14px;
+            font-size: 15px;
+            font-weight: 700;
+            font-family: inherit;
+            color: white;
+            background: linear-gradient(135deg, var(--lavender-dark) 0%, #7c3aed 50%, var(--baby-blue-dark) 100%);
+            background-size: 200% 200%;
+            cursor: pointer;
+            transition: all 0.3s var(--ease-out);
+            box-shadow: 0 4px 16px rgba(139, 92, 246, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(139, 92, 246, 0.4);
+            background-position: 100% 100%;
+        }
+
+        .btn-submit:active {
+            transform: translateY(0);
+        }
+
+        .btn-submit::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.5s;
+        }
+
+        .btn-submit:hover::after {
+            transform: translateX(100%);
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-submit .spinner {
+            display: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ── Error/Success Messages ────────────────────── */
+        .auth-message {
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            display: none;
+            align-items: center;
+            gap: 8px;
+            animation: msgSlide 0.3s var(--ease-out);
+        }
+
+        @keyframes msgSlide {
+            from {
+                opacity: 0;
+                transform: translateY(-8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .auth-message.error {
+            display: flex;
+            background: rgba(244, 63, 94, 0.08);
+            border: 1px solid rgba(244, 63, 94, 0.2);
+            color: #be123c;
+        }
+
+        .auth-message.success {
+            display: flex;
+            background: rgba(34, 197, 94, 0.08);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            color: #166534;
+        }
+
+        /* ── Footer ────────────────────────────────────── */
+        .login-footer {
+            text-align: center;
+            margin-top: 24px;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .login-footer a {
+            color: var(--lavender-dark);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .cs-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            background: rgba(139, 92, 246, 0.06);
+            border-radius: 6px;
+            font-size: 11px;
+            color: var(--lavender-dark);
+            font-family: 'Courier New', monospace;
+            margin-top: 12px;
+        }
+
+        /* ── Responsive ────────────────────────────────── */
+        @media (max-width: 480px) {
+            .login-card {
+                padding: 32px 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ═══════════════ CS PATTERN BACKGROUND ═══════════════ -->
+    <div class="cs-patterns" id="csPatterns"></div>
+
+    <!-- ═══════════════ LOGIN CARD ═══════════════ -->
+    <div class="login-container">
+        <div class="login-card">
+            <!-- Logo -->
+            <div class="login-logo">
+                <div class="login-logo-icon">
+                    <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                        <path d="M2 17l10 5 10-5" />
+                        <path d="M2 12l10 5 10-5" />
+                    </svg>
+                </div>
+                <h1 class="login-title">UI Bug AI</h1>
+                <p class="login-subtitle">Intelligent Screenshot Classifier</p>
+            </div>
+
+            <!-- Auth Tabs -->
+            <div class="auth-tabs">
+                <button class="auth-tab active" data-tab="login" onclick="switchTab('login')">Sign In</button>
+                <button class="auth-tab" data-tab="register" onclick="switchTab('register')">Create Account</button>
+            </div>
+
+            <!-- Message -->
+            <div class="auth-message" id="authMessage"></div>
+
+            <!-- Login Form -->
+            <form class="auth-form active" id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <div class="input-wrapper">
+                        <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="4" width="20" height="16" rx="3" />
+                            <path d="M22 4L12 13 2 4" />
+                        </svg>
+                        <input class="form-input" type="email" id="loginEmail" placeholder="engineer@company.com"
+                            required autocomplete="email">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <div class="input-wrapper">
+                        <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="11" width="18" height="11" rx="2" />
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                        </svg>
+                        <input class="form-input" type="password" id="loginPassword" placeholder="••••••••" required
+                            autocomplete="current-password">
+                        <button type="button" class="password-toggle" onclick="togglePassword('loginPassword', this)">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                <circle cx="12" cy="12" r="3" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <button class="btn-submit" type="submit" id="loginBtn">
+                    <span class="btn-text">Sign In</span>
+                    <div class="spinner"></div>
+                </button>
+            </form>
+
+            <!-- Register Form -->
+            <form class="auth-form" id="registerForm" onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <label class="form-label">Full Name</label>
+                    <div class="input-wrapper">
+                        <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                            <circle cx="12" cy="7" r="4" />
+                        </svg>
+                        <input class="form-input" type="text" id="regName" placeholder="Kavya Sharma" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <div class="input-wrapper">
+                        <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="4" width="20" height="16" rx="3" />
+                            <path d="M22 4L12 13 2 4" />
+                        </svg>
+                        <input class="form-input" type="email" id="regEmail" placeholder="engineer@company.com"
+                            required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <div class="input-wrapper">
+                        <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="11" width="18" height="11" rx="2" />
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                        </svg>
+                        <input class="form-input" type="password" id="regPassword" placeholder="Min. 6 characters"
+                            required minlength="6">
+                        <button type="button" class="password-toggle" onclick="togglePassword('regPassword', this)">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                <circle cx="12" cy="12" r="3" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <button class="btn-submit" type="submit" id="registerBtn">
+                    <span class="btn-text">Create Account</span>
+                    <div class="spinner"></div>
+                </button>
+            </form>
+
+            <!-- Footer -->
+            <div class="login-footer">
+                <p>Secured with JWT · AES-256 Encrypted</p>
+                <div class="cs-tag">
+                    <span>⟨/⟩</span> Built for QA Engineers
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ── CS Pattern Generator ──────────────────────────────────────────
+        function generatePatterns() {
+            const container = document.getElementById('csPatterns');
+            const w = window.innerWidth, h = window.innerHeight;
+
+            // Binary columns
+            const binaryCols = 12;
+            for (let i = 0; i < binaryCols; i++) {
+                const col = document.createElement('div');
+                col.className = 'binary-column';
+                col.style.left = `${(i / binaryCols) * 100}%`;
+                col.style.animationDuration = `${15 + Math.random() * 20}s`;
+                col.style.animationDelay = `${-Math.random() * 15}s`;
+                let binary = '';
+                for (let j = 0; j < 60; j++) {
+                    binary += Math.random() > 0.5 ? '1' : '0';
+                    if (j % 8 === 7) binary += '\n';
+                }
+                col.textContent = binary;
+                container.appendChild(col);
+            }
+
+            // Code symbols
+            const symbols = ['{ }', '< />', 'fn()', '[ ]', '===', '&&', '||', '!=', '=>', '::',
+                'class', 'def', 'if', 'for', 'API', 'CNN', 'SQL', 'JWT', 'var', 'int'];
+            const colors = ['rgba(196,181,253,0.15)', 'rgba(134,239,172,0.12)', 'rgba(147,197,253,0.12)',
+                'rgba(253,164,175,0.1)', 'rgba(254,215,170,0.12)'];
+
+            for (let i = 0; i < 20; i++) {
+                const sym = document.createElement('div');
+                sym.className = 'code-symbol';
+                sym.textContent = symbols[i % symbols.length];
+                sym.style.left = `${Math.random() * 95}%`;
+                sym.style.fontSize = `${16 + Math.random() * 24}px`;
+                sym.style.color = colors[i % colors.length];
+                sym.style.animationDelay = `${Math.random() * 12}s`;
+                sym.style.animationDuration = `${10 + Math.random() * 8}s`;
+                container.appendChild(sym);
+            }
+
+            // Circuit lines + nodes
+            for (let i = 0; i < 8; i++) {
+                const line = document.createElement('div');
+                line.className = `circuit-line circuit-line--${Math.random() > 0.5 ? 'h' : 'v'}`;
+                line.style.left = `${Math.random() * 90}%`;
+                line.style.top = `${Math.random() * 90}%`;
+                line.style.animationDelay = `${Math.random() * 5}s`;
+                container.appendChild(line);
+
+                const node = document.createElement('div');
+                node.className = 'circuit-node';
+                node.style.left = `${Math.random() * 95}%`;
+                node.style.top = `${Math.random() * 95}%`;
+                node.style.animationDelay = `${Math.random() * 3}s`;
+                container.appendChild(node);
+            }
+
+            // Geometric shapes
+            const shapes = ['50%', '0%', '30%'];
+            const shapeBorders = ['rgba(196,181,253,0.15)', 'rgba(134,239,172,0.12)', 'rgba(147,197,253,0.1)'];
+            for (let i = 0; i < 6; i++) {
+                const geo = document.createElement('div');
+                geo.className = 'geo-shape';
+                const size = 20 + Math.random() * 40;
+                geo.style.width = `${size}px`;
+                geo.style.height = `${size}px`;
+                geo.style.borderRadius = shapes[i % 3];
+                geo.style.borderColor = shapeBorders[i % 3];
+                geo.style.left = `${Math.random() * 95}%`;
+                geo.style.top = `${100 + Math.random() * 50}%`;
+                geo.style.animationDuration = `${18 + Math.random() * 15}s`;
+                geo.style.animationDelay = `${Math.random() * 10}s`;
+                container.appendChild(geo);
+            }
+        }
+
+        // ── Auth Logic ────────────────────────────────────────────────────
+        function switchTab(tab) {
+            document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
+            document.querySelector(`[data-tab="${tab}"]`).classList.add('active');
+            document.getElementById(tab === 'login' ? 'loginForm' : 'registerForm').classList.add('active');
+            hideMessage();
+        }
+
+        function showMessage(text, type) {
+            const el = document.getElementById('authMessage');
+            el.textContent = text;
+            el.className = `auth-message ${type}`;
+        }
+
+        function hideMessage() {
+            document.getElementById('authMessage').className = 'auth-message';
+        }
+
+        function setLoading(btn, loading) {
+            const text = btn.querySelector('.btn-text');
+            const spinner = btn.querySelector('.spinner');
+            btn.disabled = loading;
+            text.style.display = loading ? 'none' : 'inline';
+            spinner.style.display = loading ? 'block' : 'none';
+        }
+
+        function togglePassword(inputId, btn) {
+            const input = document.getElementById(inputId);
+            input.type = input.type === 'password' ? 'text' : 'password';
+        }
+
+        async function handleLogin(e) {
+            e.preventDefault();
+            const btn = document.getElementById('loginBtn');
+            setLoading(btn, true);
+            hideMessage();
+
+            try {
+                const res = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: document.getElementById('loginEmail').value,
+                        password: document.getElementById('loginPassword').value
+                    })
+                });
+                const data = await res.json();
+
+                if (res.ok) {
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    showMessage('Login successful! Redirecting...', 'success');
+                    setTimeout(() => { window.location.href = '/'; }, 800);
+                } else {
+                    showMessage(data.error || 'Invalid credentials', 'error');
+                }
+            } catch (err) {
+                showMessage('Server unavailable. Please try again.', 'error');
+            }
+            setLoading(btn, false);
+        }
+
+        async function handleRegister(e) {
+            e.preventDefault();
+            const btn = document.getElementById('registerBtn');
+            setLoading(btn, true);
+            hideMessage();
+
+            try {
+                const res = await fetch('/api/auth/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        name: document.getElementById('regName').value,
+                        email: document.getElementById('regEmail').value,
+                        password: document.getElementById('regPassword').value
+                    })
+                });
+                const data = await res.json();
+
+                if (res.ok) {
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    showMessage('Account created! Redirecting...', 'success');
+                    setTimeout(() => { window.location.href = '/'; }, 800);
+                } else {
+                    showMessage(data.error || 'Registration failed', 'error');
+                }
+            } catch (err) {
+                showMessage('Server unavailable. Please try again.', 'error');
+            }
+            setLoading(btn, false);
+        }
+
+        // Init
+        generatePatterns();
+
+        // Redirect if already logged in
+        if (localStorage.getItem('token')) {
+            window.location.href = '/';
+        }
+    </script>
+
+</body>
+
+</html>
